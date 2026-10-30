@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Android Optimizer & Debloater Pro</title>
+<style>
+:root {
+  --bg: #0d0d12;
+  --s1: #13131c;
+  --s2: #1a1a27;
+  --s3: #21213a;
+  --s4: #282840;
+  --acc: #7b68ee;
+  --acc2: #a08fff;
+  --acc3: #c4b5fd;
+  --grn: #4ade80;
+  --grn2: #16a34a;
+  --red: #f87171;
+  --red2: #dc2626;
+  --ylw: #fbbf24;
+  --ylw2: #d97706;
+  --blu: #60a5fa;
+  --txt: #e2e2f0;
+  --t2: #9090b8;
+  --t3: #5a5a80;
+  --bdr: #252538;
+  --r: 14px;
+  --r2: 9px;
+  --r3: 6px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--txt);
+  font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
+  font-size:14px;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* ── HEADER ── */
+.hdr{
+  background:linear-gradient(135deg,#0f0f1e 0%,#1a0a3e 50%,#0a1a3e 100%);
+  border-bottom:1px solid var(--bdr);
+  position:sticky;top:0;z-index:50;
+}
+.hdr-top{
+  padding:16px 20px 0;
+  display:flex;align-items:center;gap:14px;
+}
+.logo{
+  width:46px;height:46px;flex-shrink:0;
+  background:linear-gradient(135deg,var(--acc),#4f80e8);
+  border-radius:13px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;box-shadow:0 0 20px rgba(123,104,238,.4);
+}
+.hdr h1{font-size:17px;font-weight:700;color:#fff;letter-spacing:-.3px}
+.hdr .sub{font-size:11px;color:var(--t2);margin-top:2px}
+.tabs{display:flex;gap:0;overflow-x:auto;padding:0 8px;scrollbar-width:none;margin-top:12px}
+.tabs::-webkit-scrollbar{display:none}
+.tab{
+  padding:11px 18px;
+  border:none;background:transparent;
+  color:var(--t2);cursor:pointer;
+  font-size:12px;font-weight:600;
+  border-bottom:2px solid transparent;
+  white-space:nowrap;transition:all .2s;
+  letter-spacing:.3px;text-transform:uppercase;
+}
+.tab:hover{color:var(--txt)}
+.tab.on{color:var(--acc3);border-bottom-color:var(--acc)}
+.tab.danger-tab.on{color:var(--red);border-bottom-color:var(--red)}
+
+/* ── LAYOUT ── */
+.wrap{padding:18px 16px 120px;max-width:860px;margin:0 auto}
+.panel{display:none}.panel.on{display:block}
+
+/* ── SECTION CARDS ── */
+.sec{
+  background:var(--s1);
+  border:1px solid var(--bdr);
+  border-radius:var(--r);
+  margin-bottom:14px;
+  overflow:hidden;
+}
+.sec-hdr{
+  padding:13px 16px;
+  background:var(--s2);
+  border-bottom:1px solid var(--bdr);
+  display:flex;align-items:center;
+  justify-content:space-between;
+  cursor:pointer;user-select:none;
+  transition:background .15s;
+}
+.sec-hdr:hover{background:var(--s3)}
+.sec-hdr-l{display:flex;align-items:center;gap:10px}
+.sec-ico{font-size:20px}
+.sec-ttl{font-weight:700;font-size:13px}
+.sec-sub{font-size:11px;color:var(--t2);margin-top:2px}
+.pill{
+  background:var(--s3);
+  border-radius:20px;padding:2px 9px;
+  font-size:10px;font-weight:700;color:var(--t2);
+  letter-spacing:.3px;
+}
+.pill.active{background:rgba(123,104,238,.2);color:var(--acc3)}
+.sec-body{padding:0}
+
+/* ── SELECT BAR ── */
+.sel-bar{
+  padding:9px 16px;
+  border-bottom:1px solid var(--bdr);
+  display:flex;align-items:center;
+  justify-content:space-between;
+  background:rgba(255,255,255,.02);
+}
+.sel-bar label{
+  font-size:11px;color:var(--t2);
+  display:flex;align-items:center;gap:8px;cursor:pointer;
+}
+.sel-bar label:hover{color:var(--txt)}
+
+/* ── ITEM ROW ── */
+.row{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:11px 16px;
+  border-bottom:1px solid rgba(37,37,56,.7);
+  transition:background .12s;
+  cursor:pointer;
+}
+.row:last-child{border-bottom:none}
+.row:hover{background:var(--s2)}
+.row input[type=checkbox]{
+  width:17px;height:17px;
+  accent-color:var(--acc);
+  cursor:pointer;margin-top:2px;flex-shrink:0;
+}
+.row-info{flex:1;min-width:0}
+.row-name{font-weight:600;font-size:13px}
+.row-cmd{
+  font-size:10px;color:var(--t3);margin-top:3px;
+  font-family:'Consolas','Fira Code',monospace;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.row-desc{font-size:11px;color:var(--t2);margin-top:4px;line-height:1.5}
+.badge{
+  font-size:9px;padding:2px 7px;
+  border-radius:4px;font-weight:700;
+  flex-shrink:0;margin-top:1px;
+  letter-spacing:.4px;text-transform:uppercase;
+}
+.b-safe{background:rgba(74,222,128,.1);color:var(--grn);border:1px solid rgba(74,222,128,.2)}
+.b-warn{background:rgba(251,191,36,.1);color:var(--ylw);border:1px solid rgba(251,191,36,.2)}
+.b-risk{background:rgba(248,113,113,.1);color:var(--red);border:1px solid rgba(248,113,113,.2)}
+.b-hw{background:rgba(96,165,250,.1);color:var(--blu);border:1px solid rgba(96,165,250,.2)}
+
+/* ── DANGER BANNER ── */
+.dbanner{
+  background:linear-gradient(135deg,rgba(220,38,38,.08),rgba(127,29,29,.06));
+  border:1px solid rgba(248,113,113,.25);
+  border-radius:var(--r);padding:14px 16px;
+  margin-bottom:14px;display:flex;gap:12px;align-items:flex-start;
+}
+.dbanner .di{font-size:24px;flex-shrink:0}
+.dbanner strong{color:var(--red);display:block;margin-bottom:4px;font-size:13px}
+.dbanner p{color:var(--t2);font-size:12px;line-height:1.6}
+.dbanner code{
+  background:rgba(248,113,113,.1);color:var(--red);
+  padding:1px 5px;border-radius:3px;font-size:11px;
+}
+
+/* ── ANALYZE ── */
+.analyze-hero{
+  text-align:center;padding:36px 16px;
+  background:var(--s1);border:1px solid var(--bdr);
+  border-radius:var(--r);margin-bottom:14px;
+}
+.analyze-hero .bi{font-size:52px;margin-bottom:14px;display:block}
+.analyze-hero h3{font-size:17px;font-weight:700;margin-bottom:8px}
+.analyze-hero p{color:var(--t2);font-size:12px;max-width:360px;margin:0 auto 22px;line-height:1.6}
+.btn{
+  padding:10px 22px;border:none;
+  border-radius:var(--r2);cursor:pointer;
+  font-size:13px;font-weight:700;
+  transition:all .2s;letter-spacing:.2px;
+}
+.btn-p{background:linear-gradient(135deg,var(--acc),#5a44cc);color:#fff;box-shadow:0 4px 14px rgba(123,104,238,.3)}
+.btn-p:hover{opacity:.9;transform:translateY(-1px);box-shadow:0 6px 18px rgba(123,104,238,.4)}
+.btn-p:disabled{opacity:.5;transform:none;cursor:not-allowed}
+.btn-d{background:linear-gradient(135deg,var(--red2),#991b1b);color:#fff;box-shadow:0 4px 14px rgba(220,38,38,.3)}
+.btn-g{background:var(--s3);color:var(--txt);border:1px solid var(--bdr)}
+.btn-g:hover{background:var(--s4)}
+.btn-sm{padding:5px 12px;font-size:11px;border-radius:5px}
+.pbar-wrap{max-width:320px;margin:12px auto 0}
+.pbar{height:3px;background:var(--s3);border-radius:2px;overflow:hidden}
+.pbar-fill{height:100%;background:linear-gradient(90deg,var(--acc),var(--acc2));border-radius:2px;transition:width .4s ease}
+.pbar-label{font-size:11px;color:var(--t2);text-align:center;margin-top:6px}
+.spin{
+  display:inline-block;width:16px;height:16px;
+  border:2px solid var(--s4);border-top-color:var(--acc);
+  border-radius:50%;animation:rot .6s linear infinite;vertical-align:middle;
+}
+@keyframes rot{to{transform:rotate(360deg)}}
+
+/* ── ANALYZE RESULTS ── */
+.ar-item{
+  display:flex;align-items:center;
+  justify-content:space-between;
+  padding:10px 16px;border-bottom:1px solid var(--bdr);gap:10px;
+}
+.ar-item:last-child{border-bottom:none}
+.ar-info{flex:1;min-width:0}
+.ar-acts{display:flex;gap:6px;flex-shrink:0}
+.ar-item.rm{opacity:.4;text-decoration:line-through}
+.ar-item.kp{opacity:.6}
+
+/* ── GENERATE BAR ── */
+.gen-bar{
+  position:fixed;bottom:0;left:0;right:0;
+  background:rgba(13,13,18,.95);
+  border-top:1px solid var(--bdr);
+  backdrop-filter:blur(12px);
+  padding:12px 16px;
+  display:flex;align-items:center;
+  justify-content:space-between;gap:12px;
+  z-index:40;
+}
+.gen-info{font-size:12px;color:var(--t2)}
+.gen-info strong{color:var(--acc3);font-size:15px}
+.gen-bar .btn{min-width:180px;padding:13px 22px;font-size:14px}
+.gen-count{
+  background:rgba(123,104,238,.15);
+  border:1px solid rgba(123,104,238,.25);
+  border-radius:var(--r2);padding:8px 14px;
+  font-size:12px;color:var(--t2);
+}
+.gen-count span{color:var(--acc3);font-weight:700;font-size:16px}
+
+/* ── SCRIPT PREVIEW ── */
+.preview-wrap{
+  background:#080810;
+  border:1px solid var(--bdr);
+  border-radius:var(--r);
+  margin-top:18px;overflow:hidden;
+  display:none;
+}
+.preview-hdr{
+  padding:10px 16px;background:var(--s2);
+  border-bottom:1px solid var(--bdr);
+  display:flex;align-items:center;
+  justify-content:space-between;
+  font-size:12px;font-weight:600;
+}
+.preview-hdr .dot-row{display:flex;gap:6px}
+.dot{width:10px;height:10px;border-radius:50%}
+.dot-r{background:#ff5f56}.dot-y{background:#ffbd2e}.dot-g{background:#27c93f}
+pre.code{
+  padding:16px;
+  font-family:'Consolas','Fira Code',monospace;
+  font-size:11px;line-height:1.7;
+  color:#c8e6c9;white-space:pre-wrap;
+  word-break:break-all;max-height:380px;overflow-y:auto;
+}
+pre.code .cm{color:#37474f}
+pre.code .kw{color:#80cbc4}
+pre.code .vr{color:#c5e1a5}
+pre.code .hd{color:#ce93d8;font-weight:700}
+pre.code .ec{color:#f48fb1}
+
+/* ── MODAL ── */
+.modal{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,.75);
+  display:flex;align-items:center;justify-content:center;
+  z-index:100;padding:16px;
+}
+.modal.hidden{display:none}
+.mbox{
+  background:var(--s1);
+  border:1px solid rgba(248,113,113,.3);
+  border-radius:var(--r);padding:24px;
+  max-width:440px;width:100%;
+}
+.mbox h3{margin-bottom:10px;font-size:16px}
+.mbox p{color:var(--t2);font-size:13px;line-height:1.6;margin-bottom:20px}
+.mact{display:flex;gap:8px;justify-content:flex-end}
+
+/* ── TOAST ── */
+.toast{
+  position:fixed;bottom:90px;left:50%;
+  transform:translateX(-50%) translateY(16px);
+  background:var(--s2);
+  border:1px solid var(--bdr);
+  border-radius:var(--r2);
+  padding:10px 20px;font-size:13px;
+  opacity:0;transition:all .3s;
+  z-index:200;pointer-events:none;white-space:nowrap;
+  box-shadow:0 4px 20px rgba(0,0,0,.4);
+}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ── STATS BAR ── */
+.stats{
+  display:flex;gap:10px;flex-wrap:wrap;
+  margin-bottom:16px;
+}
+.stat-c{
+  background:var(--s1);border:1px solid var(--bdr);
+  border-radius:var(--r2);padding:10px 14px;
+  flex:1;min-width:100px;
+}
+.stat-c .sv{font-size:22px;font-weight:800;color:var(--acc3);line-height:1}
+.stat-c .sl{font-size:10px;color:var(--t2);margin-top:3px;text-transform:uppercase;letter-spacing:.4px}
+
+@media(max-width:480px){
+  .gen-bar{flex-direction:column;align-items:stretch;gap:8px}
+  .gen-bar .btn{width:100%;text-align:center}
+  .gen-count{text-align:center}
+  .hdr h1{font-size:15px}
+}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-top">
+    <div class="logo">⚡</div>
+    <div>
+      <h1>Android Optimizer &amp; Debloater Pro</h1>
+      <div class="sub">Gerador de script ADB • Performance • Hardware Tuning • Debloat</div>
+    </div>
+  </div>
+  <div class="tabs">
+    <button class="tab on" onclick="sw(0)">⚡ Performance &amp; CPU</button>
+    <button class="tab" onclick="sw(1)">🗑 Debloat Seguro</button>
+    <button class="tab danger-tab" onclick="sw(2)">☠ Debloat Avançado</button>
+    <button class="tab" onclick="sw(3)">🔬 Analisar Apps</button>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- ═══════════════════ PANEL 0 — PERFORMANCE & CPU ═══════════════════ -->
+<div id="p0" class="panel on">
+
+  <div class="stats">
+    <div class="stat-c"><div class="sv" id="sv-cpu">0</div><div class="sl">CPU/Kernel</div></div>
+    <div class="stat-c"><div class="sv" id="sv-ram">0</div><div class="sl">RAM/Mem</div></div>
+    <div class="stat-c"><div class="sv" id="sv-net">0</div><div class="sl">Rede/TCP</div></div>
+    <div class="stat-c"><div class="sv" id="sv-ui">0</div><div class="sl">UI/GPU</div></div>
+  </div>
+
+  <!-- CPU / KERNEL -->
+  <div class="sec">
+    <div class="sec-hdr" onclick="tog(this)">
+      <div class="sec-hdr-l">
+        <span class="sec-ico">🔥</span>
+        <div>
+          <div class="sec-ttl">CPU &amp; Kernel Governor</div>
+          <div class="sec-sub">Controle direto do escalonador de CPU — requer root</div>
+        </div>
+      </div>
+      <span class="pill" id="pcpu">0/4</span>
+    </div>
+    <div class="sec-body">
+      <div class="sel-bar">
+        <label><input type="checkbox" onchange="sg('cpu',this.checked)"> Todos</label>
+      </div>
+
+      <label class="row">
+        <input type="checkbox" class="g-cpu"
+          data-lbl="Governor CPU → performance"
+          data-su="true"
+          data-cmd='for cpu in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; do echo performance > $cpu; done'
+          data-desc="Força governor performance em todos os núcleos. Elimina lag por throttling. Consome mais bateria.">
+        <div class="row-info">
+          <div class="row-name">Governor CPU → performance</div>
+          <div class="row-cmd">for cpu in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; do echo performance > $cpu</div>
+          <div class="row-desc">Força todos os núcleos na frequência máxima. Máximo desempenho, consome mais bateria.</div>
+        </div>
+        <span class="badge b-hw">ROOT</span>
+      </label>
+
+      <label class="row">
+        <input type="checkbox" class="g-cpu"
+          data-lbl="I/O Scheduler → deadline"
+          data-su="true"
+          data-cmd='for q in /sys/block/*/queue/scheduler; do echo deadline > $q 2>/dev/null; done'
+          data-desc="Troca scheduler de disco para deadline. Reduz latência de leitura/escrita. Melhor para UFS/eMMC.">
+        <div class="row-info">
+          <div class="row-name">I/O Scheduler → deadline</div>
+          <div class="row-cmd">for q in /sys/block/*/queue/scheduler; do echo deadline > $q</div>
+          <div class="row-desc">Latência de disco menor. Carregamento de apps e jogos mais rápido.</div>
+        </div>
+        <span class="badge b-hw">ROOT</span>
+      </label>
+
+      <label class="row">
+        <input type="checkbox" class="g-cpu"
+          data-lbl="Read-ahead do disco → 2048 KB"
+          data-su="true"
+          data-cmd='for ra in /sys/block/*/queue/read_ahead_kb; do echo 2048 > $ra 2>/dev/null; done'
+          data-desc="Aumenta o read-ahead do bloco para 2 MB. Carregamento sequencial mais rápido.">
+        <div class="row-info">
+          <div class="row-name">Read-ahead do disco → 2048 KB</div>
+          <div class="row-cmd">for ra in /sys/block/*/queue/read_ahead_kb; do echo 2048 > $ra</div>
+          <div class="row-desc">Prefetch de dados do disco aumentado. Beneficia jogos com muitos assets.</div>
+        </div>
+        <span class="badge b-hw">ROOT</span>
+      </label>
+
+      <label class="row">
+        <input type="checkbox" class="g-cpu"
+          data-lbl="Desativar serviço logd (libera CPU)"
+          data-su="false"
+          data-cmd='stop logd'
+          data-desc="Para o daemon de log do Android. Libera CPU e RAM. Sem impacto em uso normal.">
+        <div class="row-info">
+          <div class="row-name">Desativar serviço logd</div>
+          <div class="row-cmd">adb shell stop logd</div>
+          <div class="row-desc">Para coleta de logs do sistema. Libera CPU constante. Reinicia automaticamente no boot.</div>
+        </div>
+        <span class="badge b-warn">WARN</span>
+      </label>
+    </div>
+  </div>
+
+  <!-- RAM -->
+  <div class="sec">
+    <div class="sec-hdr" onclick="tog(this)">
+      <div class="sec-hdr-l">
+        <span class="sec-ico">🧠</span>
+        <div>
+          <div class="sec-ttl">RAM &amp; Memória Virtual</div>
+          <div class="sec-sub">swappiness, trim-caches, OOM killer</div>
+        </div>
+      </div>
+      <span class="pill" id="pram">0/4</span>
+    </div>
+    <div class="sec-body">
+      <div class="sel-bar">
+        <label><input type="checkbox" onchange="sg('ram',this.checked)"> Todos</label>
+      </div>
+
+      <label class="row">
+        <input type="checkbox" class="g-ram"
+          data-lbl="vm.swappiness → 10"
+          data-su="true"
+          data-cmd='echo 10 > /proc/sys/vm/swappiness'
+          data-desc="Reduz agressividade do swap para 10 (padrão Android é 60-100). O sistema prefere RAM real.">
+        <div class="row-info">
+          <div class="row-name">vm.swappiness → 10</div>
+          <div class="row-cmd">echo 10 > /proc/sys/vm/swappiness</div>
+          <div class="row-desc">Menos uso de ZRAM/swap. RAM real usada primeiro. Menos stuttering em jogos.</div>
+        </div>
+        <span class="badge b-hw">ROOT</span>
+      </label>
+
+      <label class="row">
+        <input type="checkbox" class="g-ram"
+          data-lbl="vm.dirty_ratio → 10"
+          data-su="true"
+          data-cmd='echo 10 > /proc/sys/vm/dirty_ratio && echo 5 > /proc/sys/vm/dirty_background_ratio'
+          data-desc="Reduz dirty ratio. O kernel faz flush de I/O mais cedo, menos memória suja acumulada.">
+        <div class="row-info">
+          <div class="row-name">vm.dirty_ratio → 10 / background → 5</div>
+          <div class="row-cmd">echo 10 > /proc/sys/vm/dirty_ratio</div>
+          <div class="row-desc">I/O flushed mais cedo. Reduz pico de escrita que causa stuttering.</div>
+        </div>
+        <span class="badge b-hw">ROOT</span>
+      </label>
+
+      <label class="row">
+        <input type="checkbox" class="g-ram"
+          data-lbl="Limpar caches do sistema (pm trim-caches)"
+          data-su="false"
+          data-cmd='pm trim-caches 99999999999'
+          data-desc="Força o PackageManager a liberar todos os caches de apps. Efeito imediato.">
+        <div class="row-info">
+          <div class="row-name">Limpar caches de todos os apps</div>
+          <div class="row-cmd">adb shell pm trim-caches 99999999999</div>
+          <div class="row-desc">Libera armazenamento de caches acumulados. Seguro, apps regeneram o cache.</div>
+        </div>
+        <span class="badge b-safe">SAFE</span>
+      </label>
+
+      <label class="row">
+        <input type="checkbox" class="g-ram"
+          data-lbl="Finalizar activities em background"
+          data-su="false"
+          data-cmd='settings put global always_finish_activities 1'
+          data-desc="Android destrói activities ao sair delas. Mais RAM livre, mas apps relançam do zero.">
+        <div class="row-info">
+          <div class="row-name">Forçar finalização de activities</div>
+          <div class="row-cmd">adb shell settings put global always_finish_activities 1</div>
+          <div class="row-desc">Mais RAM livre. Apps relançam mais devagar ao voltar. Não recomendado para multitask.</div>
+        </div>
+        <span class="badge b-warn">WARN</span>
+      </label>
+    </div>
+  </div>
+
+  <!-- GPU / UI -->
+  <div class="sec">
+    <div class="sec-hdr" onclick="tog(this)">
+      <div class="sec-hdr-l">
+        <span class="sec-ico">🎮</span>
+        <div>
+          <div class="sec-ttl">GPU &amp; Interface</div>
+          <div class="sec-sub">Animações, GPU rendering, taxa de atualização</div>
+        </div>
+      </div>
+      <span class="pill" id="pui">0/5</span>
+    </div>
+    <div class="sec-body">
+      <div class="sel-bar">
+        <label><input type="checkbox" onchange="sg('ui',this.checked)"> Todos</label>
+      </div>
+
+      <label class="row">
+        <input type="checkbox" class="g-ui"
+          data-lbl="Desativar animações (0x)"
+          data-su="false"
+          data-cmd='settings put global window_animation_scale 0.0 && settings put global transition_animation_scale 0.0 && settings put global animator_duration_scale 0.0'
+          data-desc="Zera as três escalas de animação do sistema. UI parece instantânea.">
+        <div class="row-info">
+          <div class="row-name">Desativar todas as animações do sistema</div>
+          <div class="row-cmd">settings put global window_animation_scale 0.0 (+ 2 cmds)</div>
+          <div class="row-desc">Escala de janela, transição e animator → 0.0. UI instantânea.</div>
+        </div>
+        <span class="badge b-safe">SAFE</span>
+      </label>
+
+      <label class="row">
+        <input type="checkbox" class="g-ui"
+          data-lbl="Forçar GPU rendering para UI"
+          data-su="false"
+          data-cmd='settings put global gpu_debug_layers_enable 0 && setprop debug.hwui.renderer opengl'
+          data-desc="Força a UI a renderizar via OpenGL na GPU. Reduz carga da CPU em UI-heavy apps.">
+        <div class="row-info">
+          <div class="row-name">Forçar renderização de UI via GPU</div>
+          <div class="row-cmd">setprop debug.hwui.renderer opengl</div>
+          <div class="row-desc">UI renderizada pela GPU. Mais suave em launchers e apps com muitas views.</div>
+        </div>
+        <span class="badge b-warn">WARN</span>
+      </label>
+
+      <label class="row">
+        <input type="checkbox" class="g-ui"
+          data-lbl="Desativar HW overlays (forçar GPU compositing)"
+          data-su="false"
+          data-cmd='setprop debug.egl.hw 0 && service call SurfaceFlinger 1008 i32 1'
+          data-desc="Desativa hardware overlays do SurfaceFlinger. Tudo composto pela GPU. Útil para debugging de renderização.">
+        <div class="row-info">
+          <div class="row-name">Desativar HW Overlays (GPU compositing)</div>
+          <div class="row-cmd">service call SurfaceFlinger 1008 i32 1</div>
+          <div class="row-desc">GPU faz toda a composição da tela. Pode aumentar consumo de GPU mas reduz tearing.</div>
+        </div>
+        <span class="badge b-warn">WARN</span>
+      </label>
+
+      <label class="row">
+        <input type="checkbox" class="g-ui"
+          data-lbl="Forçar taxa de atualização máxima (120Hz)"
+          data-su="false"
+          data-cmd='settings put system peak_refresh_rate 120 && settings put system min_refresh_rate 120'
+          data-desc="Trava o display em 120Hz (ou o máximo suportado pelo hardware). Ignora se dispositivo não suporta.">
+        <div class="row-info">
+          <div class="row-name">Forçar 120Hz (peak refresh rate)</div>
+          <div class="row-cmd">settings put system peak_refresh_rate 120</div>
+          <div class="row-desc">Display sempre em taxa máxima. Mais suave, consome mais bateria. Ignorado se hw não suporta.</div>
+        </div>
+        <span class="badge b-safe">SAFE</span>
+      </label>
+
+      <label class="row">
+        <input type="checkbox" class="g-ui"
+          data-lbl="Desativar compositing de janela (HWUI)"
+          data-su="true"
+          data-cmd='setprop debug.sf.disable_backpressure 1 && setprop debug.sf.enable_gl_backpressure 0'
+          data-desc="Desativa back-pressure no SurfaceFlinger. Reduz frames dropados sob carga pesada.">
+        <div class="row-info">
+          <div class="row-name">Desativar SF back-pressure</div>
+          <div class="row-cmd">setprop debug.sf.disable_backpressure 1</div>
+          <div class="row-desc">SurfaceFlinger não aplica back-pressure. Menos frame drops em picos de CPU/GPU.</div>
+        </div>
+        <span class="badge b-hw">ROOT</span>
+      </label>
+    </div>
+  </div>
+
+  <!-- REDE / TCP -->
+  <div class="sec">
+    <div class="sec-hdr" onclick="tog(this)">
+      <div class="sec-hdr-l">
+        <span class="sec-ico">📡</span>
+        <div>
+          <div class="sec-ttl">Rede &amp; TCP Tuning</div>
+          <div class="sec-sub">Buffer, congestion control, ping em jogos</div>
+        </div>
+      </div>
+      <span class="pill" id="pnet">0/4</span>
+    </div>
+    <div class="sec-body">
+      <div class="sel-bar">
+        <label><input type="checkbox" onchange="sg('net',this.checked)"> Todos</label>
+      </div>
+
+      <label class="row">
+        <input type="checkbox" class="g-net"
+          data-lbl="TCP congestion control → bbr"
+          data-su="true"
+          data-cmd='echo bbr > /proc/sys/net/ipv4/tcp_congestion_control'
+          data-desc="Ativa BBR (Bottleneck Bandwidth and RTT). Menos latência, mais throughput. Requer kernel com BBR compilado.">
+        <div class="row-info">
+          <div class="row-name">TCP Congestion Control → BBR</div>
+          <div class="row-cmd">echo bbr > /proc/sys/net/ipv4/tcp_congestion_control</div>
+          <div class="row-desc">Menor latência TCP. Melhor para jogos online e streaming. Kernel 4.9+ suporta.</div>
+        </div>
+        <span class="badge b-hw">ROOT</span>
+      </label>
+
+      <label class="row">
+        <input type="checkbox" class="g-net"
+          data-lbl="Aumentar buffer TCP (rmem/wmem)"
+          data-su="true"
+          data-cmd='echo "4096 87380 16777216" > /proc/sys/net/ipv4/tcp_rmem && echo "4096 65536 16777216" > /proc/sys/net/ipv4/tcp_wmem'
+          data-desc="Aumenta buffer de recepção/envio do TCP. Mais throughput em conexões rápidas.">
+        <div class="row-info">
+          <div class="row-name">Buffer TCP → 16 MB (rmem/wmem)</div>
+          <div class="row-cmd">echo "4096 87380 16777216" > /proc/sys/net/ipv4/tcp_rmem</div>
+          <div class="row-desc">Buffer máximo de 16 MB. Ideal para download rápido e streaming HD.</div>
+        </div>
+        <span class="badge b-hw">ROOT</span>
+      </label>
+
+      <label class="row">
+        <input type="checkbox" class="g-net"
+          data-lbl="Desativar TCP slow start após idle"
+          data-su="true"
+          data-cmd='echo 0 > /proc/sys/net/ipv4/tcp_slow_start_after_idle'
+          data-desc="Evita reinício de slow-start após período idle. Melhora latência de primeiro pacote em jogos.">
+        <div class="row-info">
+          <div class="row-name">Desativar TCP slow start após idle</div>
+          <div class="row-cmd">echo 0 > /proc/sys/net/ipv4/tcp_slow_start_after_idle</div>
+          <div class="row-desc">Sem warm-up de conexão TCP. Primeiros pacotes após pausa saem na velocidade máxima.</div>
+        </div>
+        <span class="badge b-hw">ROOT</span>
+      </label>
+
+      <label class="row">
+        <input type="checkbox" class="g-net"
+          data-lbl="Desativar scan Wi-Fi em background"
+          data-su="false"
+          data-cmd='settings put global wifi_scan_always_enabled 0 && settings put global ble_scan_always_enabled 0'
+          data-desc="Para scan Wi-Fi e BLE em background. Menos wakeups do chipset de rádio.">
+        <div class="row-info">
+          <div class="row-name">Desativar scan Wi-Fi/BLE em background</div>
+          <div class="row-cmd">settings put global wifi_scan_always_enabled 0</div>
+          <div class="row-desc">Menos wakeups de rádio. Reduz latência de rede durante jogos (menos interferência).</div>
+        </div>
+        <span class="badge b-safe">SAFE</span>
+      </label>
+    </div>
+  </div>
+
+</div><!-- /p0 -->
+
+<!-- ═══════════════════ PANEL 1 — DEBLOAT SEGURO ═══════════════════ -->
+<div id="p1" class="panel">
+
+  <div class="sec">
+    <div class="sec-hdr" onclick="tog(this)">
+      <div class="sec-hdr-l"><span class="sec-ico">🔵</span>
+        <div><div class="sec-ttl">Apps Google</div><div class="sec-sub">Seguros — não afetam sistema</div></div>
+      </div><span class="pill" id="pdg">0/9</span>
+    </div>
+    <div class="sec-body">
+      <div class="sel-bar"><label><input type="checkbox" onchange="sg('dg',this.checked)"> Todos</label></div>
+      <label class="row"><input type="checkbox" class="g-dg" data-pkg="com.google.android.youtube" data-lbl="YouTube">
+        <div class="row-info"><div class="row-name">YouTube</div><div class="row-cmd">com.google.android.youtube</div></div><span class="badge b-safe">SAFE</span></label>
+      <label class="row"><input type="checkbox" class="g-dg" data-pkg="com.google.android.apps.maps" data-lbl="Google Maps">
+        <div class="row-info"><div class="row-name">Google Maps</div><div class="row-cmd">com.google.android.apps.maps</div></div><span class="badge b-safe">SAFE</span></label>
+      <label class="row"><input type="checkbox" class="g-dg" data-pkg="com.google.android.calendar" data-lbl="Google Agenda">
+        <div class="row-info"><div class="row-name">Google Agenda</div><div class="row-cmd">com.google.android.calendar</div></div><span class="badge b-safe">SAFE</span></label>
+      <label class="row"><input type="checkbox" class="g-dg" data-pkg="com.google.android.keep" data-lbl="Google Keep">
+        <div class="row-info"><div class="row-name">Google Keep</div><div class="row-cmd">com.google.android.keep</div></div><span class="badge b-safe">SAFE</span></label>
+      <label class="row"><input type="checkbox" class="g-dg" data-pkg="com.google.android.apps.docs" data-lbl="Google Drive">
+        <div class="row-info"><div class="row-name">Google Drive</div><div class="row-cmd">com.google.android.apps.docs</div></div><span class="badge b-safe">SAFE</span></label>
+      <label class="row"><input type="checkbox" class="g-dg" data-pkg="com.google.android.apps.tachyon" data-lbl="Google Meet/Duo">
+        <div class="row-info"><div class="row-name">Google Meet / Duo</div><div class="row-cmd">com.google.android.apps.tachyon</div></div><span class="badge b-safe">SAFE</span></label>
+      <label class="row"><input type="checkbox" class="g-dg" data-pkg="com.google.android.music" data-lbl="Google Play Música">
+        <div class="row-info"><div class="row-name">Google Play Música (legado)</div><div class="row-cmd">com.google.android.music</div></div><span class="badge b-safe">SAFE</span></label>
+      <label class="row"><input type="checkbox" class="g-dg" data-pkg="com.google.android.feedback" data-lbl="Google Feedback">
+        <div class="row-info"><div class="row-name">Google Feedback (crash reports)</div><div class="row-cmd">com.google.android.feedback</div></div><span class="badge b-safe">SAFE</span></label>
+      <label class="row"><input type="checkbox" class="g-dg" data-pkg="com.google.android.apps.googleassistant" data-lbl="Google Assistant App">
+        <div class="row-info"><div class="row-name">Google Assistant (app standalone)</div><div class="row-cmd">com.google.android.apps.googleassistant</div></div><span class="badge b-safe">SAFE</span></label>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-hdr" onclick="tog(this)">
+      <div class="sec-hdr-l"><span class="sec-ico">📱</span>
+        <div><div class="sec-ttl">Apps de Terceiros Pré-instalados</div><div class="sec-sub">Facebook, streaming, varejo</div></div>
+      </div><span class="pill" id="pdt">0/8</span>
+    </div>
+    <div class="sec-body">
+      <div class="sel-bar"><label><input type="checkbox" onchange="sg('dt',this.checked)"> Todos</label></div>
+      <label class="row"><input type="checkbox" class="g-dt" data-pkg="com.facebook.katana" data-lbl="Facebook">
+        <div class="row-info"><div class="row-name">Facebook</div><div class="row-cmd">com.facebook.katana</div></div><span class="badge b-safe">SAFE</span></label>
+      <label class="row"><input type="checkbox" class="g-dt" data-pkg="com.facebook.appmanager" data-lbl="Facebook App Manager">
+        <div class="row-info"><div class="row-name">Facebook App Manager</div><div class="row-cmd">com.facebook.appmanager</div></div><span class="badge b-safe">SAFE</span></label>
+      <label class="row"><input type="checkbox" class="g-dt" data-pkg="com.instagram.android" data-lbl="Instagram">
+        <div class="row-info"><div class="row-name">Instagram</div><div class="row-cmd">com.instagram.android</div></div><span class="badge b-safe">SAFE</span></label>
+      <label class="row"><input type="checkbox" class="g-dt" data-pkg="com.netflix.mediaclient" data-lbl="Netflix">
+        <div class="row-info"><div class="row-name">Netflix</div><div class="row-cmd">com.netflix.mediaclient</div></div><span class="badge b-safe">SAFE</span></label>
+      <label class="row"><input type="checkbox" class="g-dt" data-pkg="com.spotify.music" data-lbl="Spotify">
+        <div class="row-info"><div class="row-name">Spotify</div><div class="row-cmd">com.spotify.music</div></div><span class="badge b-safe">SAFE</span></label>
+      <label class="row"><input type="checkbox" class="g-dt" data-pkg="com.zhiliaoapp.musically" data-lbl="TikTok">
+        <div class="row-info"><div class="row-name">TikTok</div><div class="row-cmd">com.zhiliaoapp.musically</div></div><span class="badge b-safe">SAFE</span></label>
+      <label class="row"><input type="checkbox" class="g-dt" data-pkg="com.amazon.mShop.android.shopping" data-lbl="Amazon Shopping">
+        <div class="row-info"><div class="row-name">Amazon Shopping</div><div class="row-cmd">com.amazon.mShop.android.shopping</div></div><span class="badge b-safe">SAFE</span></label>
+      <label class="row"><input type="checkbox" class="g-dt" data-pkg="com.king.candycrushsaga" data-lbl="Candy Crush Saga">
+        <div class="row-info"><div class="row-name">Candy Crush Saga</div><div class="row-cmd">com.king.candycrushsaga</div></div><span class="badge b-safe">SAFE</span></label>
+    </div>
+  </div>
+
+</div><!-- /p1 -->
+
+<!-- ═══════════════════ PANEL 2 — DEBLOAT AVANÇADO ═══════════════════ -->
+<div id="p2" class="panel">
+
+  <div class="dbanner">
+    <div class="di">☠️</div>
+    <div>
+      <strong>ZONA DE PERIGO — LEIA ANTES</strong>
+      <p>Apps desta lista são desativados com <code>pm disable-user --user 0</code> (reversível), não removidos. Remover <code>com.android.bluetooth</code> ou <code>com.google.android.gms</code> pode inutilizar funções críticas. Restaurar: <code>adb shell pm enable --user 0 PACOTE</code> ou <code>adb shell cmd package install-existing PACOTE</code>. Teste um por vez.</p>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-hdr" onclick="tog(this)">
+      <div class="sec-hdr-l"><span class="sec-ico">⚙️</span>
+        <div><div class="sec-ttl">Serviços Google Críticos</div><div class="sec-sub">Remove funcionalidades de base do ecossistema Google</div></div>
+      </div><span class="pill" id="pda">0/5</span>
+    </div>
+    <div class="sec-body">
+      <label class="row"><input type="checkbox" class="g-da" data-pkg="com.google.android.gms" data-lbl="Google Play Services">
+        <div class="row-info"><div class="row-name">Google Play Services</div><div class="row-cmd">com.google.android.gms</div>
+        <div class="row-desc">RISCO: Quebra login Google, notificações push, Google Pay, Maps em apps de terceiros.</div></div><span class="badge b-risk">RISCO</span></label>
+      <label class="row"><input type="checkbox" class="g-da" data-pkg="com.google.android.gsf" data-lbl="Google Services Framework">
+        <div class="row-info"><div class="row-name">Google Services Framework</div><div class="row-cmd">com.google.android.gsf</div>
+        <div class="row-desc">RISCO: Base de todos os serviços Google. Remover quebra praticamente tudo Google.</div></div><span class="badge b-risk">RISCO</span></label>
+      <label class="row"><input type="checkbox" class="g-da" data-pkg="com.android.vending" data-lbl="Google Play Store">
+        <div class="row-info"><div class="row-name">Google Play Store</div><div class="row-cmd">com.android.vending</div>
+        <div class="row-desc">Sem Play Store — apenas APK manual. Apps não atualizam automaticamente.</div></div><span class="badge b-risk">RISCO</span></label>
+      <label class="row"><input type="checkbox" class="g-da" data-pkg="com.google.android.setupwizard" data-lbl="Setup Wizard">
+        <div class="row-info"><div class="row-name">Setup Wizard</div><div class="row-cmd">com.google.android.setupwizard</div>
+        <div class="row-desc">Pode travar em alguns processos de reset de fábrica ou atualização OTA.</div></div><span class="badge b-warn">WARN</span></label>
+      <label class="row"><input type="checkbox" class="g-da" data-pkg="com.google.android.partnersetup" data-lbl="Partner Setup">
+        <div class="row-info"><div class="row-name">Partner Setup</div><div class="row-cmd">com.google.android.partnersetup</div>
+        <div class="row-desc">Configuração de parceiros OEM. Geralmente inofensivo remover.</div></div><span class="badge b-warn">WARN</span></label>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-hdr" onclick="tog(this)">
+      <div class="sec-hdr-l"><span class="sec-ico">📡</span>
+        <div><div class="sec-ttl">Conectividade de Sistema</div><div class="sec-sub">Bluetooth, NFC, Cell Broadcast</div></div>
+      </div><span class="pill" id="pdc">0/4</span>
+    </div>
+    <div class="sec-body">
+      <label class="row"><input type="checkbox" class="g-dc" data-pkg="com.android.bluetooth" data-lbl="Bluetooth Stack">
+        <div class="row-info"><div class="row-name">Bluetooth Stack</div><div class="row-cmd">com.android.bluetooth</div>
+        <div class="row-desc">RISCO: Remove Bluetooth completamente. Fones, teclados, mouses BT param de funcionar.</div></div><span class="badge b-risk">RISCO</span></label>
+      <label class="row"><input type="checkbox" class="g-dc" data-pkg="com.android.nfc" data-lbl="NFC">
+        <div class="row-info"><div class="row-name">NFC</div><div class="row-cmd">com.android.nfc</div>
+        <div class="row-desc">Remove NFC. Pagamento por aproximação e transferência NFC param.</div></div><span class="badge b-warn">WARN</span></label>
+      <label class="row"><input type="checkbox" class="g-dc" data-pkg="com.android.cellbroadcastreceiver" data-lbl="Cell Broadcast (alertas emergência)">
+        <div class="row-info"><div class="row-name">Cell Broadcast Receiver</div><div class="row-cmd">com.android.cellbroadcastreceiver</div>
+        <div class="row-desc">Remove alertas de emergência do governo (ES-BR, AMBER Alert). Não recomendado.</div></div><span class="badge b-warn">WARN</span></label>
+      <label class="row"><input type="checkbox" class="g-dc" data-pkg="com.android.hotspot2" data-lbl="Wi-Fi Passpoint">
+        <div class="row-info"><div class="row-name">Wi-Fi Passpoint</div><div class="row-cmd">com.android.hotspot2</div>
+        <div class="row-desc">Wi-Fi automático de operadora. Seguro remover se não usa hotspot corporativo.</div></div><span class="badge b-safe">SAFE</span></label>
+    </div>
+  </div>
+
+</div><!-- /p2 -->
+
+<!-- ═══════════════════ PANEL 3 — ANALYZE ═══════════════════ -->
+<div id="p3" class="panel">
+  <div class="analyze-hero">
+    <span class="bi">🔬</span>
+    <h3>Análise de Bloatware</h3>
+    <p>Simula varredura de apps pré-instalados desnecessários detectados por fingerprint de package name e tamanho estimado.</p>
+    <button class="btn btn-p" id="abtn" onclick="startScan()">🔍 Iniciar Análise</button>
+    <div class="pbar-wrap" id="pwrap" style="display:none">
+      <div class="pbar"><div class="pbar-fill" id="pfill" style="width:0%"></div></div>
+      <div class="pbar-label" id="plbl">Inicializando...</div>
+    </div>
+  </div>
+  <div id="ares" class="sec" style="display:none">
+    <div class="sec-hdr">
+      <div class="sec-hdr-l"><span class="sec-ico">📊</span>
+        <div><div class="sec-ttl">Apps detectados</div><div class="sec-sub" id="arcount">—</div></div>
+      </div>
+    </div>
+    <div id="arlist"></div>
+  </div>
+</div><!-- /p3 -->
+
+<!-- GENERATE BAR -->
+<div class="gen-bar">
+  <div class="gen-count">
+    <span id="total">0</span> selecionados
+  </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end">
+    <button class="btn btn-g" onclick="genScript('bat')" style="font-size:12px;padding:10px 14px">🪟 .bat (Windows)</button>
+    <button class="btn btn-p" onclick="genScript('sh')">⚡ Gerar Script .sh</button>
+  </div>
+</div>
+
+<div class="preview-wrap" id="prevwrap">
+  <div class="preview-hdr">
+    <div class="dot-row"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div>
+    <span id="prevfname" style="color:var(--t2);font-family:monospace">otimizar_android.sh</span>
+    <button class="btn btn-g btn-sm" onclick="copyScript()">📋 Copiar</button>
+  </div>
+  <pre class="code" id="prevcode"></pre>
+</div>
+
+</div><!-- /wrap -->
+
+<!-- MODAL -->
+<div class="modal hidden" id="modal">
+  <div class="mbox">
+    <h3>⚠️ Apps de alto risco selecionados</h3>
+    <p id="mtxt"></p>
+    <div class="mact">
+      <button class="btn btn-g" onclick="closeModal()">Cancelar</button>
+      <button class="btn btn-d" onclick="confirmGen()">Gerar mesmo assim</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── TABS ─────────────────────────────────────────────────────────────────────
+const tabs   = document.querySelectorAll('.tab');
+const panels = document.querySelectorAll('.panel');
+function sw(i){
+  tabs.forEach((t,j)=>{t.classList.toggle('on',i===j)});
+  panels.forEach((p,j)=>{p.classList.toggle('on',i===j)});
+}
+
+// ── COLLAPSE ─────────────────────────────────────────────────────────────────
+function tog(hdr){
+  const b=hdr.nextElementSibling;
+  b.style.display=b.style.display==='none'?'':'none';
+}
+
+// ── GROUP SELECT ─────────────────────────────────────────────────────────────
+function sg(g,v){
+  document.querySelectorAll('.g-'+g).forEach(c=>c.checked=v);
+  upd();
+}
+
+// ── UPDATE COUNTS ────────────────────────────────────────────────────────────
+const GRP={
+  cpu:['pcpu',4,'sv-cpu'],
+  ram:['pram',4,'sv-ram'],
+  ui: ['pui',5,'sv-ui'],
+  net:['pnet',4,'sv-net'],
+  dg: ['pdg',9,null],
+  dt: ['pdt',8,null],
+  da: ['pda',5,null],
+  dc: ['pdc',4,null],
+};
+function upd(){
+  let tot=0;
+  for(const[g,[pid,max,sv]] of Object.entries(GRP)){
+    const n=document.querySelectorAll('.g-'+g+':checked').length;
+    const el=document.getElementById(pid);
+    if(el){el.textContent=n+'/'+max;el.className='pill'+(n>0?' active':'');}
+    if(sv) document.getElementById(sv).textContent=n;
+    tot+=n;
+  }
+  tot+=document.querySelectorAll('.g-az:checked').length;
+  document.getElementById('total').textContent=tot;
+}
+document.addEventListener('change',e=>{if(e.target.type==='checkbox')upd();});
+
+// ── CRITICAL PACKAGES ────────────────────────────────────────────────────────
+const CRIT=new Set([
+  'com.android.systemui','com.android.phone','com.android.settings',
+  'com.android.providers.telephony','com.android.providers.contacts',
+  'com.android.providers.downloads','com.android.providers.media',
+  'com.android.server.telecom','com.android.keychain',
+  'com.android.packageinstaller','android','com.android.shell',
+  'com.android.inputmethod.latin','com.android.launcher3',
+]);
+
+// ── BUILD SCRIPT ─────────────────────────────────────────────────────────────
+let _fmt='sh';
+function buildSh(){
+  const L=[];
+  const a=s=>L.push(s);
+  const now=new Date().toLocaleString('pt-BR');
+
+  a('#!/system/bin/sh');
+  a('# ═══════════════════════════════════════════════════════════════════════');
+  a('# Android Optimizer & Debloater Pro');
+  a('# Gerado em: '+now);
+  a('# Execute via: adb shell sh /sdcard/otimizar_android.sh');
+  a('# Ou linha a linha via adb shell para mais controle.');
+  a('# ROOT: comandos marcados com [ROOT] requerem acesso root (su).');
+  a('# RESTAURAR app: adb shell cmd package install-existing PACOTE');
+  a('# ═══════════════════════════════════════════════════════════════════════');
+  a('');
+
+  // opts CPU/RAM/UI/NET
+  const perfGrps=[
+    {g:'cpu',t:'CPU & KERNEL GOVERNOR'},
+    {g:'ram',t:'RAM & MEMÓRIA VIRTUAL'},
+    {g:'ui', t:'GPU & INTERFACE'},
+    {g:'net',t:'REDE & TCP TUNING'},
+  ];
+  let hasPerf=false;
+  for(const{g,t} of perfGrps){
+    const items=[...document.querySelectorAll('.g-'+g+':checked')];
+    if(!items.length) continue;
+    if(!hasPerf){a('# ─────────────────────────────────────────────────');a('# OTIMIZAÇÕES DE HARDWARE');a('# ─────────────────────────────────────────────────');hasPerf=true;}
+    a('');a('# ── '+t+' ──');
+    for(const el of items){
+      const su=el.dataset.su==='true';
+      a('# '+el.dataset.lbl+(su?' [ROOT]':''));
+      if(su){
+        // wrap in su -c
+        a('su -c "'+el.dataset.cmd+'"');
+      } else {
+        a(el.dataset.cmd);
+      }
+    }
+  }
+  if(hasPerf) a('');
+
+  // debloat safe
+  const safeG=['dg','dt'];
+  let hasSafe=false;
+  for(const g of safeG){
+    const items=[...document.querySelectorAll('.g-'+g+':checked')];
+    if(!items.length) continue;
+    if(!hasSafe){a('# ─────────────────────────────────────────────────');a('# DEBLOAT SEGURO (uninstall --user 0)');a('# ─────────────────────────────────────────────────');hasSafe=true;}
+    for(const el of items){
+      const pkg=el.dataset.pkg;
+      if(CRIT.has(pkg)){a('# IGNORADO (pacote crítico protegido): '+pkg);continue;}
+      a('# Removendo: '+el.dataset.lbl);
+      a('pm uninstall --user 0 '+pkg);
+    }
+  }
+  if(hasSafe) a('');
+
+  // debloat avançado
+  const advG=['da','dc'];
+  let hasAdv=false;
+  for(const g of advG){
+    const items=[...document.querySelectorAll('.g-'+g+':checked')];
+    if(!items.length) continue;
+    if(!hasAdv){a('# ─────────────────────────────────────────────────');a('# DEBLOAT AVANÇADO (disable — reversível)');a('# Restaurar: pm enable --user 0 PACOTE');a('# ─────────────────────────────────────────────────');hasAdv=true;}
+    for(const el of items){
+      const pkg=el.dataset.pkg;
+      if(CRIT.has(pkg)){a('# IGNORADO (crítico): '+pkg);continue;}
+      a('# Desativando: '+el.dataset.lbl);
+      a('pm disable-user --user 0 '+pkg);
+    }
+  }
+  if(hasAdv) a('');
+
+  // analyze
+  const azItems=[...document.querySelectorAll('.g-az:checked')];
+  if(azItems.length){
+    a('# ─────────────────────────────────────────────────');
+    a('# APPS DA ANÁLISE AUTOMÁTICA');
+    a('# ─────────────────────────────────────────────────');
+    for(const el of azItems){
+      const pkg=el.dataset.pkg;
+      if(CRIT.has(pkg)){a('# IGNORADO (crítico): '+pkg);continue;}
+      a('# '+el.dataset.lbl);
+      a('pm uninstall --user 0 '+pkg);
+    }
+    a('');
+  }
+
+  a('echo "✓ Script finalizado. Reinicie para aplicar todas as mudanças."');
+  return L.join('\n');
+}
+
+function buildBat(){
+  const L=[];
+  const a=s=>L.push(s);
+  const now=new Date().toLocaleString('pt-BR');
+
+  a('@echo off');
+  a(':: ═══════════════════════════════════════════════════════════════════════');
+  a(':: Android Optimizer & Debloater Pro — '+now);
+  a(':: Execute como Administrador. Requer ADB no PATH.');
+  a(':: ═══════════════════════════════════════════════════════════════════════');
+  a('echo Verificando dispositivo ADB...');
+  a('adb wait-for-device');
+  a('echo Dispositivo conectado.');
+  a('');
+
+  // opts
+  const perfGrps=[
+    {g:'cpu',t:'CPU & KERNEL'},
+    {g:'ram',t:'RAM & MEMÓRIA'},
+    {g:'ui', t:'GPU & INTERFACE'},
+    {g:'net',t:'REDE TCP'},
+  ];
+  let hasPerf=false;
+  for(const{g,t} of perfGrps){
+    const items=[...document.querySelectorAll('.g-'+g+':checked')];
+    if(!items.length) continue;
+    if(!hasPerf){a(':: ─── OTIMIZAÇÕES ───');hasPerf=true;}
+    a(':: ── '+t);
+    for(const el of items){
+      const su=el.dataset.su==='true';
+      a(':: '+el.dataset.lbl+(su?' [ROOT]':''));
+      if(su){
+        a('adb shell su -c "'+el.dataset.cmd+'"');
+      } else {
+        a('adb shell '+el.dataset.cmd.replace(/&&/g,' && adb shell '));
+      }
+    }
+    a('');
+  }
+
+  const safeG=['dg','dt'];
+  let hasSafe=false;
+  for(const g of safeG){
+    const items=[...document.querySelectorAll('.g-'+g+':checked')];
+    if(!items.length) continue;
+    if(!hasSafe){a(':: ─── DEBLOAT SEGURO ───');hasSafe=true;}
+    for(const el of items){
+      const pkg=el.dataset.pkg;
+      if(CRIT.has(pkg)){a(':: IGNORADO (crítico): '+pkg);continue;}
+      a(':: '+el.dataset.lbl);
+      a('adb shell pm uninstall --user 0 '+pkg);
+    }
+  }
+  if(hasSafe) a('');
+
+  const advG=['da','dc'];
+  let hasAdv=false;
+  for(const g of advG){
+    const items=[...document.querySelectorAll('.g-'+g+':checked')];
+    if(!items.length) continue;
+    if(!hasAdv){a(':: ─── DEBLOAT AVANÇADO (disable) ───');hasAdv=true;}
+    for(const el of items){
+      const pkg=el.dataset.pkg;
+      if(CRIT.has(pkg)){a(':: IGNORADO: '+pkg);continue;}
+      a(':: '+el.dataset.lbl);
+      a('adb shell pm disable-user --user 0 '+pkg);
+    }
+  }
+  if(hasAdv) a('');
+
+  const azItems=[...document.querySelectorAll('.g-az:checked')];
+  if(azItems.length){
+    a(':: ─── ANÁLISE AUTOMÁTICA ───');
+    for(const el of azItems){
+      const pkg=el.dataset.pkg;
+      if(CRIT.has(pkg)){a(':: IGNORADO: '+pkg);continue;}
+      a(':: '+el.dataset.lbl);
+      a('adb shell pm uninstall --user 0 '+pkg);
+    }
+    a('');
+  }
+
+  a('echo Script finalizado. Reinicie o dispositivo.');
+  a('pause');
+  return L.join('\r\n');
+}
+
+// ── GENERATE ─────────────────────────────────────────────────────────────────
+let _pendingFmt='sh';
+function genScript(fmt){
+  _pendingFmt=fmt;
+  const tot=parseInt(document.getElementById('total').textContent)||0;
+  if(tot===0){toast('Nenhum item selecionado');return;}
+  const hasDanger=document.querySelectorAll('.g-da:checked,.g-dc:checked').length>0;
+  if(hasDanger){
+    document.getElementById('mtxt').textContent=
+      'Você selecionou pacotes da aba "Debloat Avançado". O script vai desativá-los com pm disable-user (reversível), mas pode quebrar funções do sistema. Verifique cada pacote antes de executar. Continuar?';
+    document.getElementById('modal').classList.remove('hidden');
+    return;
+  }
+  doGen(_pendingFmt);
+}
+function closeModal(){document.getElementById('modal').classList.add('hidden');}
+function confirmGen(){closeModal();doGen(_pendingFmt);}
+
+let _sc='';
+let _dlCap=null;
+(async()=>{try{_dlCap=await window.claude?.use('downloads')??null;}catch(e){_dlCap=null;}})();
+
+async function doGen(fmt){
+  _sc=fmt==='bat'?buildBat():buildSh();
+  const fname='otimizar_android.'+(fmt==='bat'?'bat':'sh');
+  document.getElementById('prevfname').textContent=fname;
+
+  // render
+  const wrap=document.getElementById('prevwrap');
+  wrap.style.display='block';
+  const pre=document.getElementById('prevcode');
+  pre.innerHTML=_sc.split('\n').map(l=>{
+    if(l.startsWith('#')||l.startsWith('::'))return`<span class="cm">${esc(l)}</span>`;
+    if(l.startsWith('su ')||l.startsWith('adb shell su'))return`<span class="ec">${esc(l)}</span>`;
+    if(l.startsWith('pm ')||l.startsWith('adb ')||l.startsWith('settings ')||l.startsWith('setprop ')||l.startsWith('echo '))return`<span class="kw">${esc(l)}</span>`;
+    if(l.startsWith('#!/')||l.startsWith('@echo'))return`<span class="hd">${esc(l)}</span>`;
+    return`<span class="vr">${esc(l)}</span>`;
+  }).join('\n');
+  wrap.scrollIntoView({behavior:'smooth'});
+
+  // download
+  const enc=new TextEncoder().encode(_sc);
+  if(_dlCap){
+    try{await _dlCap.save({filename:fname,data:enc.buffer});toast('✓ Download: '+fname);}
+    catch(e){toast('Download cancelado');}
+  } else {
+    const b=new Blob([_sc],{type:'text/plain'});
+    const u=URL.createObjectURL(b);
+    const a=document.createElement('a');
+    a.href=u;a.download=fname;
+    document.body.appendChild(a);a.click();
+    document.body.removeChild(a);URL.revokeObjectURL(u);
+    toast('✓ Script gerado: '+fname);
+  }
+}
+
+function copyScript(){
+  navigator.clipboard.writeText(_sc).then(()=>toast('✓ Copiado!')).catch(()=>toast('Erro ao copiar'));
+}
+
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+// ── TOAST ─────────────────────────────────────────────────────────────────────
+function toast(m){
+  const t=document.getElementById('toast');
+  t.textContent=m;t.classList.add('on');
+  setTimeout(()=>t.classList.remove('on'),2800);
+}
+
+// ── ANALYZE ──────────────────────────────────────────────────────────────────
+const BLOAT=[
+  {n:'Facebook App Manager',p:'com.facebook.appmanager',r:'safe'},
+  {n:'Facebook Services',p:'com.facebook.services',r:'safe'},
+  {n:'TikTok',p:'com.zhiliaoapp.musically',r:'safe'},
+  {n:'Snapchat',p:'com.snapchat.android',r:'safe'},
+  {n:'Samsung DeX',p:'com.sec.android.desktopmode2',r:'warn'},
+  {n:'Bixby Wakeup',p:'com.samsung.android.bixby.wakeup',r:'warn'},
+  {n:'AR Emoji',p:'com.samsung.android.aremoji',r:'safe'},
+  {n:'Game Launcher (Samsung)',p:'com.samsung.android.game.gamehome',r:'safe'},
+  {n:'LinkedIn',p:'com.linkedin.android',r:'safe'},
+  {n:'Microsoft OneDrive',p:'com.microsoft.skydrive',r:'safe'},
+  {n:'Outlook',p:'com.microsoft.office.outlook',r:'safe'},
+  {n:'Candy Crush Saga',p:'com.king.candycrushsaga',r:'safe'},
+  {n:'Booking.com',p:'com.booking',r:'safe'},
+  {n:'Android Auto',p:'com.google.android.projection.gearhead',r:'warn'},
+  {n:'Google Stadia',p:'com.google.stadia.android',r:'safe'},
+  {n:'Qualcomm Color Management',p:'com.qualcomm.qti.qdcmss',r:'warn'},
+  {n:'QualCore Diag',p:'com.qualcomm.qti.diagservice',r:'warn'},
+  {n:'MIUI Cleaner',p:'com.miui.cleanmaster',r:'safe'},
+];
+
+let scanDone=false;
+function startScan(){
+  if(scanDone)return;
+  const btn=document.getElementById('abtn');
+  btn.disabled=true;btn.innerHTML='<span class="spin"></span> Analisando...';
+  const pw=document.getElementById('pwrap');
+  const pf=document.getElementById('pfill');
+  const pl=document.getElementById('plbl');
+  pw.style.display='';
+  const steps=['Conectando ao dispositivo...','Lendo packages instalados...','Cruzando fingerprints de bloatware...','Calculando memória ocupada...','Gerando relatório...'];
+  let i=0;
+  const iv=setInterval(()=>{
+    const pct=Math.min(100,Math.round((i+1)/steps.length*100));
+    pf.style.width=pct+'%';pl.textContent=steps[i]||'';
+    i++;
+    if(i>=steps.length){clearInterval(iv);setTimeout(showScan,350);}
+  },500);
+}
+
+function showScan(){
+  scanDone=true;
+  document.getElementById('abtn').innerHTML='✓ Análise concluída';
+  const found=BLOAT.filter(()=>Math.random()>.2);
+  const res=document.getElementById('ares');
+  const list=document.getElementById('arlist');
+  document.getElementById('arcount').textContent=found.length+' apps desnecessários detectados';
+  res.style.display='';list.innerHTML='';
+  for(const app of found){
+    const bdg=app.r==='safe'?'<span class="badge b-safe">SAFE</span>':'<span class="badge b-warn">WARN</span>';
+    const d=document.createElement('div');
+    d.className='ar-item';
+    d.innerHTML=`
+      <div class="ar-info">
+        <div class="row-name">${app.n}</div>
+        <div class="row-cmd">${app.p}</div>
+      </div>
+      ${bdg}
+      <div class="ar-acts">
+        <button class="btn btn-d btn-sm" onclick="azMark(this,'${app.p}','${app.n.replace(/'/g,"\\'")}',true)">Remover</button>
+        <button class="btn btn-g btn-sm" onclick="azMark(this,'${app.p}','${app.n.replace(/'/g,"\\'")}',false)">Manter</button>
+      </div>`;
+    const cb=document.createElement('input');
+    cb.type='checkbox';cb.className='g-az';
+    cb.dataset.pkg=app.p;cb.dataset.lbl=app.n;
+    cb.style.display='none';d.appendChild(cb);
+    list.appendChild(d);
+  }
+  res.scrollIntoView({behavior:'smooth'});
+  upd();
+}
+
+function azMark(btn,pkg,name,remove){
+  const row=btn.closest('.ar-item');
+  const cb=row.querySelector('.g-az');
+  cb.checked=remove;
+  row.classList.toggle('rm',remove);
+  row.classList.toggle('kp',!remove);
+  row.querySelector('.ar-acts').innerHTML=remove
+    ?'<span class="badge b-risk">REMOVER</span>'
+    :'<span class="badge" style="background:rgba(96,165,250,.1);color:var(--blu);border:1px solid rgba(96,165,250,.2)">MANTER</span>';
+  upd();
+}
+</script>
+</body>
+</html>
